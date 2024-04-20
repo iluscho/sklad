@@ -4,8 +4,11 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shapes;
+using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
 using sklad;
 
@@ -15,10 +18,10 @@ namespace Sklad
     {
         public class Product : INotifyPropertyChanged
         {
+            
             private string name;
             private DateTime date;
             private int quantity;
-
             public string Name
             {
                 get { return name; }
@@ -94,7 +97,7 @@ namespace Sklad
         {
             DateTime currentDate = DateTime.Now;
             int quantity = int.Parse(quantityTextBox.Text);
-
+            
             Product product = new Product
             {
                 Name = productNameTextBox.Text,
@@ -182,14 +185,32 @@ namespace Sklad
 
             List<Product> filteredProducts = Products.Where(p => p.Date >= startDate && p.Date <= endDate).ToList();
 
-            string report = "Отчёт движения товаров:\n\n";
+            string report = $"Отчёт движения товаров: c {startDate} до {endDate}\n\n";
             foreach (Product product in filteredProducts)
             {
                 report += $"Товар: {product.Name}, Дата: {product.Date}, Кол-во: {product.Quantity}\n";
             }
 
-            MessageBox.Show(report);
+            reportwindow reportwindow = new reportwindow();
+            reportwindow.reporttb.Text = report;
+            reportwindow.Show();
+            
+
+            string line = " ";
+            int max = 0;
+            string s1 = report;
+            string[] NewText = s1.Split('\n');
+            for (int i = 0; i < NewText.Length; i++)
+            {
+                if (NewText[i].Length > max)
+                {
+                    max = NewText[i].Length;
+                    line = NewText[i];
+                }
+            }
+            reportwindow.Width = max*6;
         }
+
 
         private void productsListBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
