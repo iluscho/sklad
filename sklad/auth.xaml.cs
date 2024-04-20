@@ -61,8 +61,8 @@ namespace sklad
         }
 
         public List<User> Users { get; set; } = new List<User>();
-        private const string dataFilePath = "auth.json";
-        private const string readme = "readme";
+        private const string dataFilePath = "../../data/auth.json";
+        private const string readme = "../../data/readme";
 
         public auth()
         {
@@ -74,8 +74,8 @@ namespace sklad
             {
                 string readmestr = File.ReadAllText(readme);
                 MessageBox.Show(readmestr, "рид ми");
-                string oldFilePath = "readme";
-                string newFileName = "readme.json";
+                string oldFilePath = "../../data/readme";
+                string newFileName = "../../data/readme.json";
                 File.Move(oldFilePath, newFileName);
             }
         }

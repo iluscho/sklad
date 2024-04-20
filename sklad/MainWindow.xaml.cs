@@ -58,7 +58,7 @@ namespace Sklad
         }
 
         public List<Product> Products { get; set; } = new List<Product>();
-        private const string dataFilePath = "data.json";
+        private const string dataFilePath = "../../data/data.json";
 
         public MainWindow()
         {
