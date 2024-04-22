@@ -99,7 +99,7 @@ namespace sklad
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
-            string passHashed = CalculateSHA256(passwordTextbox.Text);
+            string passHashed = SHA256conv.CalculateSHA256(passwordTextbox.Text);
             User user = Users.FirstOrDefault(u => u.Login == loginTextbox.Text && u.Pass == passHashed);
 
             if (user != null)
@@ -119,7 +119,7 @@ namespace sklad
         {
             if (passwordTextbox.Text != "Пароль" && loginTextbox.Text != "Логин")
             {
-                string passHashed = CalculateSHA256(passwordTextbox.Text);
+                string passHashed = SHA256conv.CalculateSHA256(passwordTextbox.Text);
                 if (Users.Any(u => u.Login == loginTextbox.Text))
                 {
                     MessageBox.Show("Пользователь с таким логином уже существует", "Ошибка регистрации");
@@ -139,19 +139,6 @@ namespace sklad
                 MessageBox.Show("Введите логин и пароль для регистрации", "Ошибка регистрации");
             }
             
-        }
-        private string CalculateSHA256(string str)
-        {
-            SHA256 sha256 = SHA256Managed.Create();
-            byte[] hashValue;
-            UTF8Encoding objUtf8 = new UTF8Encoding();
-            hashValue = sha256.ComputeHash(objUtf8.GetBytes(str));
-            StringBuilder stringBuilder = new StringBuilder();
-            foreach (byte b in hashValue)
-            {
-                stringBuilder.Append(b.ToString("x2"));
-            }
-            return stringBuilder.ToString();
         }
 
         private void loginTextbox_GotFocus(object sender, RoutedEventArgs e)

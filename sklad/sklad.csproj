@@ -61,6 +61,7 @@
     <Compile Include="reportwindow.xaml.cs">
       <DependentUpon>reportwindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SHA256conv.cs" />
     <Page Include="auth.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
