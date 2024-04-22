@@ -96,18 +96,25 @@ namespace Sklad
         private void AddProductButton_Click(object sender, RoutedEventArgs e)
         {
             DateTime currentDate = DateTime.Now;
-            int quantity = int.Parse(quantityTextBox.Text);
-            
-            Product product = new Product
+            try
             {
-                Name = productNameTextBox.Text,
-                Date = currentDate,
-                Quantity = quantity
-            };
+                int quantity = int.Parse(quantityTextBox.Text);
 
-            Products.Add(product);
-            SaveData();
-            UpdateProductsListBox(); // Обновление ListBox после добавления продукта
+                Product product = new Product
+                {
+                    Name = productNameTextBox.Text,
+                    Date = currentDate,
+                    Quantity = quantity
+                };
+
+                Products.Add(product);
+                SaveData();
+                UpdateProductsListBox(); // Обновление ListBox после добавления продукта
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Введите количество товара", "Ошибка количества");
+            }
         }
 
         private void RemoveProductButton_Click(object sender, RoutedEventArgs e)
@@ -180,6 +187,9 @@ namespace Sklad
                     break;
                 case 2: // Month
                     startDate = DateTime.Today.AddDays(-30);
+                    break;
+                case 3: // все время
+                    startDate = DateTime.MinValue;
                     break;
             }
 

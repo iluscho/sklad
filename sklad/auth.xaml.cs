@@ -117,20 +117,28 @@ namespace sklad
 
         private void registerButton_Click(object sender, RoutedEventArgs e)
         {
-            string passHashed = CalculateSHA256(passwordTextbox.Text);
-            if (Users.Any(u => u.Login == loginTextbox.Text))
+            if (passwordTextbox.Text != "Пароль" && loginTextbox.Text != "Логин")
             {
-                MessageBox.Show("Пользователь с таким логином уже существует", "Ошибка регистрации");
-                return;
+                string passHashed = CalculateSHA256(passwordTextbox.Text);
+                if (Users.Any(u => u.Login == loginTextbox.Text))
+                {
+                    MessageBox.Show("Пользователь с таким логином уже существует", "Ошибка регистрации");
+                    return;
+                }
+                User user = new User()
+                {
+                    Login = loginTextbox.Text,
+                    Pass = passHashed
+                };
+                MessageBox.Show("Пользователь добавлен");
+                Users.Add(user);
+                SaveData();
             }
-            User user = new User()
+            else
             {
-                Login = loginTextbox.Text,
-                Pass = passHashed
-            };
-            MessageBox.Show("Пользователь добавлен");
-            Users.Add(user);
-            SaveData();
+                MessageBox.Show("Введите логин и пароль для регистрации", "Ошибка регистрации");
+            }
+            
         }
         private string CalculateSHA256(string str)
         {
